@@ -1,0 +1,27 @@
+﻿@page
+@model FreshFarmWeb.Pages._2FALoginModel
+@{
+}
+<div class="container mt-5">
+    
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <h1 class="mb-3">Enter the verification code</h1>
+
+            <form method="post" asp-antiforgery="true" id="demo-form">
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Code">Code</label>
+                    <input type="text" asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-primary">
+                        Enter Code
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

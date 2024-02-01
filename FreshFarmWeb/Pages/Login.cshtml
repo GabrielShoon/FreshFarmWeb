@@ -1,0 +1,60 @@
+﻿@page
+@model FreshFarmWeb.Pages.LoginModel
+@{
+}
+<div class="container mt-5">
+
+	<div class="row justify-content-center align-items-center">
+
+		<script src="https://www.google.com/recaptcha/api.js"></script>
+
+		<script>
+			function onSubmit(token) {
+				document.getElementById("myForm").submit();
+			}
+
+		</script>
+
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<h1 class="mb-3">Login </h1>			
+
+			@if (Model.LockoutStatus.IsLockedOut)
+			{
+				<div class="alert alert-danger" role="alert">
+					Account is locked until: @Model.LockoutStatus.LockoutEndDate?.ToString("yyyy-MM-dd HH:mm:ss") (SGT)
+				</div>
+			}
+
+
+			<form method="post" id="myForm">
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="LModel.Email">Email Address</label>
+					<input type="Text" asp-for="LModel.Email" class="form-control" />
+					<span asp-validaton-for="LModel.Email" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="LModel.Password">Password</label>
+					<input type="Text" asp-for="LModel.Password" class="form-control" />
+					<span asp-validaton-for="LModel.Password" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3 form-check">
+					<input type="checkbox" asp-for="LModel.RememberMe" class="form-check-input" />
+					<label class="form-check-label" asp-for="LModel.RememberMe">Remember Me?</label>
+				</div>
+
+				<div class="mb-3">
+					<button type="submit" class="btn btn-primary g-recaptcha" 
+					data-sitekey="6LenfmApAAAAAA7Ywhn1DanQ5N5qUj5WRBoPNH-H"
+					data-callback="onSubmit"
+					data-action="submit">Login</button>
+
+					<a asp-page="ResetPassword" class="btn btn-link">Reset Password</a>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,174 @@
+﻿@page
+@model FreshFarmWeb.Pages.RegisterModel
+@{
+}
+
+<div class="container mt-5">
+
+	<div class="row justify-content-center align-items-center">
+
+        <div class="col-sm-12 col-md-8 col-lg-6">
+            <h1 class="mb-3">Register </h1>
+
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.FullName">Full Name</label>
+                        <input type="text" asp-for="RModel.FullName" class="form-control" id="FullName" oninput="validateFullName()" />
+                        <span asp-validation-for="RModel.FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.CreditCard">Credit Card</label>
+                        <input type="text" asp-for="RModel.CreditCard" class="form-control" id="CreditCard" oninput="validateCreditCard()" />
+                        <span asp-validation-for="RModel.CreditCard" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.Gender">Gender</label>
+                    <select asp-for="RModel.Gender" class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span asp-validation-for="RModel.Gender" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.PhoneNumber">Phone Number</label>
+                    <input type="tel" asp-for="RModel.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="RModel.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.DeliveryAddress">Delivery Address</label>
+                    <input type="text" asp-for="RModel.DeliveryAddress" class="form-control" />
+                    <span asp-validation-for="RModel.DeliveryAddress" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.Email">Email Address</label>
+                    <input type="email" asp-for="RModel.Email" class="form-control" />
+                    <span asp-validation-for="RModel.Email" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.Password">Password</label>
+                        <input type="text" asp-for="RModel.Password" class="form-control" id="password" onkeyup="checkPasswordStrength()" />
+                        <span asp-validation-for="RModel.Password" class="text-danger"></span>
+                        <span id="password-strength"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
+                        <input type="text" asp-for="RModel.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="RModel.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.Photo">Photo</label>
+                    <input type="file" asp-for="RModel.Photo" class="form-control" />
+                    <span asp-validation-for="RModel.Photo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="RModel.AboutMe">About Me</label>
+                    <textarea asp-for="RModel.AboutMe" class="form-control"></textarea>
+                    <span asp-validation-for="RModel.AboutMe" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+@section scripts {
+    <script>
+        function checkPasswordStrength() {
+            var password = document.getElementById("password").value;
+            var strengthMeter = document.getElementById("password-strength");
+
+            // Reset the strength counter
+            var strength = 0;
+
+            // Check for length
+            if (password.length >= 12) {
+                strength += 1;
+            }
+
+            // Check for numbers
+            if (/\d/.test(password)) {
+                strength += 1;
+            }
+
+            // Check for lowercase letters
+            if (/[a-z]/.test(password)) {
+                strength += 1;
+            }
+
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                strength += 1;
+            }
+
+            // Check for special characters
+            if (/[\W_]/.test(password)) {
+                strength += 1;
+            }
+
+            // Update the strength meter
+            strengthMeter.innerHTML = "Strength: " + strength;
+
+            // Adjust the color based on strength (you can customize this part)
+            if (strength >= 5) {
+                strengthMeter.className = "text-success";
+            } else if (strength >= 3) {
+                strengthMeter.className = "text-warning";
+            } else {
+                strengthMeter.className = "text-danger";
+            }
+        }
+
+        function validateFullName() {
+            var fullNameInput = document.getElementById('FullName');
+            var fullNameValue = fullNameInput.value;
+
+            // Define a regular expression to allow only letters and spaces
+            var regex = /^[A-Za-z\s]+$/;
+
+            if (!regex.test(fullNameValue)) {
+                // If the input contains special characters, prevent further input
+                fullNameInput.value = fullNameValue.replace(/[^\w\s]/gi, ''); // Remove special characters
+            }
+        }
+
+
+        function validateCreditCard() {
+            var creditCardInput = document.getElementById('CreditCard');
+            var creditCardValue = creditCardInput.value;
+
+            // Define a regular expression to allow only numbers and spaces
+            var regex = /^[0-9\s]+$/;
+
+            if (!regex.test(creditCardValue)) {
+                // If the input contains non-numeric or non-space characters, prevent further input
+                creditCardInput.value = creditCardValue.replace(/[^\d\s]/g, ''); // Remove non-numeric and non-space characters
+            }
+        }
+
+
+    </script>
+}
+
+
+
